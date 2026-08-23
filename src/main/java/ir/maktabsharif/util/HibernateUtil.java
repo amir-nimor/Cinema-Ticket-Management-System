@@ -1,5 +1,6 @@
 package ir.maktabsharif.util;
 
+import ir.maktabsharif.exception.EntityNotFound;
 import ir.maktabsharif.exception.HibernateConnectionException;
 import jakarta.persistence.*;
 
@@ -43,11 +44,29 @@ public class HibernateUtil {
         }
     }
 
-    public static <T> T read(Function<EntityManager,T> operation){
+    public static <T> T read(Function<EntityManager, T> operation) {
         try {
             return operation.apply(getEm());
         } catch (RuntimeException e) {
             throw new HibernateConnectionException("connection failed => " + e.getMessage());
+        }
+    }
+
+
+    public static <T> T InTxReturnWithException(FunctionWithException<EntityManager, T> operation) throws EntityNotFound {
+        EntityManager entityManager = getEm();
+        EntityTransaction tx = entityManager.getTransaction();
+        try {
+            tx.begin();
+
+            T result = operation.apply(entityManager);
+            tx.commit();
+            return result;
+        } catch (PersistenceException e) {
+            tx.rollback();
+            throw new HibernateConnectionException("connection failed => " + e.getMessage());
+        } finally {
+            emf.close();
         }
     }
 

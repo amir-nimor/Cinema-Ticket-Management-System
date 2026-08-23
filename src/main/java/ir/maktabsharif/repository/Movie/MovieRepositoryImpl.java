@@ -46,4 +46,12 @@ public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie, Long> impleme
         if (newEntity.getStatus() != null) databaseEntity.setStatus(newEntity.getStatus());
         if (newEntity.getTitle() != null) databaseEntity.setTitle(newEntity.getTitle());
     }
+
+    @Override
+    public List<Movie> findAll() {
+        return HibernateUtil.read(em -> {
+            return em.createQuery("SELECT m FROM Movie m")
+                    .getResultList();
+        });
+    }
 }

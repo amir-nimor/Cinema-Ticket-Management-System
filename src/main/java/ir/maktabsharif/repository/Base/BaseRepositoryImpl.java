@@ -1,5 +1,6 @@
 package ir.maktabsharif.repository.Base;
 
+import ir.maktabsharif.exception.EntityNotFound;
 import ir.maktabsharif.exception.HibernateConnectionException;
 import ir.maktabsharif.exception.RepositoryOperationException;
 import ir.maktabsharif.model.BaseModel.BaseModel;
@@ -43,11 +44,22 @@ public abstract class BaseRepositoryImpl<T extends BaseModel<ID>
     @Override
     public T update(T t) {
         try {
-            return HibernateUtil.InTxReturn(em -> {
-                em.merge(t);
+            return HibernateUtil.InTxReturnWithException(em -> {
+                ID id = t.getId();
+
+                T t1 = em.find(entityClass, id);
+
+                if (t1 != null) {
+                    throw new EntityNotFound("Entity not founded in database ");
+                } else {
+                    copyEntity(t, t1);
+
+                    em.merge(t);
+                }
+
                 return t;
             });
-        } catch (HibernateConnectionException e) {
+        } catch (HibernateConnectionException | EntityNotFound e) {
             throw new RepositoryOperationException("operation update is failed => " + e.getMessage());
         }
     }
@@ -56,8 +68,12 @@ public abstract class BaseRepositoryImpl<T extends BaseModel<ID>
     public ID delete(ID id) {
         try {
             return HibernateUtil.InTxReturn(em -> {
-                em.remove(em.find(entityClass, id));
-                return id;
+                T find = em.find(entityClass, id);
+                if (find != null){
+                    em.remove(find);
+                    return id;
+                }
+                return null;
             });
         } catch (HibernateConnectionException e) {
             throw new RepositoryOperationException("operation delete is failed => " + e.getMessage());
@@ -65,5 +81,5 @@ public abstract class BaseRepositoryImpl<T extends BaseModel<ID>
     }
 
 
-    protected abstract void copyEntity(T newEntity,T databaseEntity);
+    protected abstract void copyEntity(T newEntity, T databaseEntity);
 }
