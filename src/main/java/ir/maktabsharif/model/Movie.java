@@ -8,7 +8,7 @@ import org.hibernate.annotations.Check;
 import java.math.BigDecimal;
 
 @NamedQuery(name = "findMovieByTitle",
-query = "SELECT m from Movie m where m.title = :nameTitel"
+        query = "SELECT m from Movie m where m.title like lower(concat('%' ,:nameTitel,'%') )  "
 )
 
 @NamedQuery(name = "findAvailableMovies",

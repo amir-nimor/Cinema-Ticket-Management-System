@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class HibernateUtil {
 
-    private static final String PERSISTENCE_UNIT = "";
+    private static final String PERSISTENCE_UNIT = "Cinema-Ticket";
 
 
     private static EntityManagerFactory emf;
@@ -40,7 +40,7 @@ public class HibernateUtil {
             tx.rollback();
             throw new HibernateConnectionException("connection failed => " + e.getMessage());
         } finally {
-            emf.close();
+            entityManager.close();
         }
     }
 

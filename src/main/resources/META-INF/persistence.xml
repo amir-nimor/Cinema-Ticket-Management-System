@@ -7,6 +7,9 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <class>ir.maktabsharif.model.Movie</class>
+        <class>ir.maktabsharif.model.Customer</class>
+        <class>ir.maktabsharif.model.Ticket</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
