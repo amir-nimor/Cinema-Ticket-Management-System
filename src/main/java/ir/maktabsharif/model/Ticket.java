@@ -62,6 +62,8 @@ public class Ticket extends BaseModel<Long> {
     public String toString() {
         return "Ticket{" +
                 "pruchaseDate=" + pruchaseDate +
+                ", customer=" + customer +
+                ", movie=" + movie +
                 '}';
     }
 }

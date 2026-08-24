@@ -16,8 +16,8 @@ public class MovieAvailabilityHandler implements Handler{
 
     @Override
     public void handel(Ticket ticket) {
-        if (ticket.getMovie().getStatus().equals(Status.AVAILABLE)){
-            setNext(nextHandler);
+        if (ticket.getMovie().getStatus() == Status.AVAILABLE && nextHandler != null){
+            nextHandler.handel(ticket);
         }else {
             System.out.println("your movie status is NOT_AVAILABLE ");
         }

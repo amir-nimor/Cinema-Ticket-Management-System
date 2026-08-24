@@ -66,7 +66,7 @@ public class HibernateUtil {
             tx.rollback();
             throw new HibernateConnectionException("connection failed => " + e.getMessage());
         } finally {
-            emf.close();
+            entityManager.close();
         }
     }
 

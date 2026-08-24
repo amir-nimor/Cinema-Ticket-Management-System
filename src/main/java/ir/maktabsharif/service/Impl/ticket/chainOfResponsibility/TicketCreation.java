@@ -16,8 +16,10 @@ public class TicketCreation implements Handler {
 
     @Override
     public void handel(Ticket ticket) {
-        Long id = new TicketServiceImpl().save(ticket);
-        System.out.println("your ticket => "+ticket+"  add successfully");
-        System.out.println("your ticket id is  => "+id);
+        if (ticket.getPruchaseDate() != null && handler != null){
+            handler.handel(ticket);
+        }else {
+            System.out.println("your ticket is not have a date");
+        }
     }
 }

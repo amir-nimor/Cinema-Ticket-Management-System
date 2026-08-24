@@ -49,15 +49,14 @@ public abstract class BaseRepositoryImpl<T extends BaseModel<ID>
 
                 T t1 = em.find(entityClass, id);
 
-                if (t1 != null) {
+                if (t1 == null) {
                     throw new EntityNotFound("Entity not founded in database ");
                 } else {
                     copyEntity(t, t1);
-
-                    em.merge(t);
+                    return t;
                 }
 
-                return t;
+
             });
         } catch (HibernateConnectionException | EntityNotFound e) {
             throw new RepositoryOperationException("operation update is failed => " + e.getMessage());
