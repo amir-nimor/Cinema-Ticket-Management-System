@@ -9,4 +9,5 @@ import java.util.List;
 public interface MovieRepository extends BaseRpository<Movie,Long> {
     Movie findByTitle(String title);
     List<Movie> findAvailable();
+    Movie findMovieByCustomerId(Long id);
 }

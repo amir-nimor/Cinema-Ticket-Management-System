@@ -41,6 +41,19 @@ public class MovieRepositoryImpl extends BaseRepositoryImpl<Movie, Long> impleme
     }
 
     @Override
+    public Movie findMovieByCustomerId(Long id) {
+        try {
+            return HibernateUtil.read(em -> {
+                return em.createNamedQuery("findMoviePurchasedByCustomer", Movie.class)
+                        .setParameter(1,id)
+                        .getSingleResult();
+            });
+        }catch (HibernateConnectionException e){
+            throw new RepositoryOperationException("operation find by customer is failed => " + e.getMessage());
+        }
+    }
+
+    @Override
     protected void copyEntity(Movie newEntity, Movie databaseEntity) {
         if (newEntity.getPrice().compareTo(BigDecimal.ZERO) > 0) databaseEntity.setPrice(newEntity.getPrice());
         if (newEntity.getStatus() != null) databaseEntity.setStatus(newEntity.getStatus());

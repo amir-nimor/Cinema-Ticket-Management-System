@@ -7,13 +7,18 @@ import org.hibernate.annotations.Check;
 
 import java.math.BigDecimal;
 
-@NamedQuery(name = "findMovieByTitle",
-        query = "SELECT m from Movie m where m.title like lower(concat('%' ,:nameTitel,'%') )  "
-)
+@NamedQueries({
+        @NamedQuery(name = "findMovieByTitle",
+                query = "SELECT m from Movie m where m.title like lower(concat('%' ,:nameTitel,'%') )  "
+        ),
+        @NamedQuery(name = "findAvailableMovies",
+                query = "SELECT m from Movie m WHERE m.status = 'AVAILABLE'"
+        ),
+        @NamedQuery(name = "findMoviePurchasedByCustomer",
+        query = "SELECT m from Movie m JOIN Ticket t on m.id = t.id where t.customer.id = ?1"
+        )
+})
 
-@NamedQuery(name = "findAvailableMovies",
-        query = "SELECT m from Movie m WHERE m.status = 'AVAILABLE'"
-)
 
 @Entity
 @Table(name = "movies")

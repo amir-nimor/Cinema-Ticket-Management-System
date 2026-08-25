@@ -154,5 +154,13 @@ public class Main {
         ticketService.findAll().forEach(System.out::println);
 
 
+
+
+        System.out.println();
+        // -----------------------------------------
+        System.out.println("movie find by customer id");
+        System.out.println(movieService.findByCustomerId(2L));
+
+
     }
 }

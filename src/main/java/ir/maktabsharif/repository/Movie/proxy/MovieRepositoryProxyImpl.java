@@ -38,6 +38,11 @@ public class MovieRepositoryProxyImpl implements MovieRepository {
     }
 
     @Override
+    public Movie findMovieByCustomerId(Long id) {
+        return movieRepository.findMovieByCustomerId(id);
+    }
+
+    @Override
     public Long create(Movie movie) {
         try {
             if (movie.getTitle() != null) {

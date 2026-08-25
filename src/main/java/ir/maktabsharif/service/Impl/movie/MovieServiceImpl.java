@@ -37,4 +37,9 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie,Long, MovieRepositor
     public List<Movie> findAvailable() {
         return movieRepositoryProxy.findAvailable();
     }
+
+    @Override
+    public Movie findByCustomerId(Long id) {
+        return movieRepositoryProxy.findMovieByCustomerId(id);
+    }
 }

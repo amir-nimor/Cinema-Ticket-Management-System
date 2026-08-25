@@ -10,5 +10,7 @@ public interface MovieService extends BaseService<Movie,Long> {
 
     List<Movie> findAvailable();
 
+    Movie findByCustomerId(Long id);
+
     List<Movie> findAll();
 }
